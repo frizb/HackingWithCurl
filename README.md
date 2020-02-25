@@ -77,7 +77,8 @@ Often we performing an assessment against a webserver, we will attempt to trigge
 ## Fuzzing with URI length / GET parameter length limits with cURL
 
 The following script can be used to fuzz a webserver with a long URL track the changes in output and write the output to a file.
-You can use modify the url to either fuzz a URI or a GET parameter.
+It is meant to be a basic scaffold for you to build a fit for purpose fuzzer using cURL and Bash.
+You can modify the url to either fuzz a URI or a GET parameter.
 
 Here is the bash shell script:
 ```Bash
@@ -112,4 +113,19 @@ Length Lines Words Bytes Filename
 100003 11  37 343 output.txt
 100004 11  37 343 output.txt
 100005 11  37 343 output.txt
+```
+
+## Fuzzing POST parameter length limits with cURL
+
+The following script can be used to fuzz a webserver POST parameters and write the output to a file and track changes to that output.
+It is meant to be a basic scaffold for you to build a fit for purpose fuzzer using cURL and Bash.
+
+Here is the bash shell script:
+```Bash
+
+```
+
+Here is an example of what it looks like running:
+```
+
 ```
