@@ -8,10 +8,8 @@ Although attack proxies like BurpSuitePro are very handy tools, cURL allows you 
 
 ## cURL GET parameters
 HTTP GET variables can be set by adding them to the URL.
-Here is a simple get request example:
 ```
-Save curls output into a file
-$ curl -o mygettext.html http://www.gnu.org/software/gettext/manual/gettext.html
+curl http://10.10.10.10/index.php?sessionid=vn0g4d94rs09rgpqga85r9bnia
 ```
 
 ## cURL POST parameters
@@ -76,8 +74,42 @@ curl --data "name=test&email=test@test.com&password=test" http://10.10.10.10/new
 # Fuzzing Web Servers with cURL
 Often we performing an assessment against a webserver, we will attempt to trigger error conditions which will provide some deeper insights into the underlying processes and software. cURL can be a powerful fuzzing tool for generating these edge case error messages.
 
-## Fuzzing with URL length limits with cURL
+## Fuzzing with URI length / GET parameter length limits with cURL
 
+The following script can be used to fuzz a webserver with a long URL track the changes in output and write the output to a file.
+You can use modify the url to either fuzz a URI or a GET parameter.
+
+Here is the bash shell script:
+```Bash
+echo "args: <URL> <Start Length #> <End Length #> <Output Filepath>"
+echo "Length Lines Words Bytes Filename"
+echo "---------------------------------"
+for ((i = $2; x <= $3; i++))
+do
+        fuzz=""
+        for ((x = 1; x <= $i; x++))
+        do
+                fuzz+="A"
+        done
+        #echo "COUNT: $i $fuzz"
+        #echo "${1}${fuzz}"
+        echo "${i}" | { tr -d '\n' ; curl "${1}${fuzz}" -o ${4} 2>/dev/null | wc ${4}; }
+done
 ```
 
+Here is an example of what it looks like running:
+```Bash
+./fuzz_url.sh http://10.10.10.10/ 1000 1000000 output.txt
+args: <URL> <Start Length #> <End Length #> <Output Filepath>
+Length Lines Words Bytes Filename
+---------------------------------
+1000 9  31 274 output.txt
+...
+...
+100000 11  37 343 output.txt
+100001 11  37 343 output.txt
+100002 11  37 343 output.txt
+100003 11  37 343 output.txt
+100004 11  37 343 output.txt
+100005 11  37 343 output.txt
 ```
