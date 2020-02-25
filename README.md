@@ -82,6 +82,7 @@ You can modify the url to either fuzz a URI or a GET parameter.
 
 Here is the bash shell script:
 ```Bash
+#!/bin/bash
 echo "args: <URL> <Start Length #> <End Length #> <Output Filepath>"
 echo "Length Lines Words Bytes Filename"
 echo "---------------------------------"
@@ -122,10 +123,33 @@ It is meant to be a basic scaffold for you to build a fit for purpose fuzzer usi
 
 Here is the bash shell script:
 ```Bash
+#!/bin/bash
+echo "args: <URL> <Start Length #> <End Length #> <Output Filepath> <Post data: var=value&var2=valuefuzz>"
+echo "Length Lines Words Bytes Filename"
+echo "---------------------------------"
+for ((i = $2; x <= $3; i++))
+do
+        fuzz=""
+        for ((x = 1; x <= $i; x++))
+        do
+                fuzz+="A"
+        done
+        #echo "COUNT: $i $fuzz"
+        #echo "${5}${fuzz}"
+        echo "${i}" | { tr -d '\n' ; curl "${1}" -o ${4} -d "${5}${fuzz}" 2>/dev/null | wc ${4}; }
+done
 
 ```
 
 Here is an example of what it looks like running:
 ```
-
+./fuzz_post.sh http://10.10.10.10/ 1000 1000000 output.txt "user=test&password=test"
+args: <URL> <Start Length #> <End Length #> <Output Filepath>
+Length Lines Words Bytes Filename
+---------------------------------
+1000 9  31 274 output.txt
+...
+...
+100000 11  37 343 output.txt
+100001 11  37 343 output.txt
 ```
