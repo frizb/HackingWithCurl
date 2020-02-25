@@ -153,3 +153,26 @@ Length Lines Words Bytes Filename
 100000 11  37 343 output.txt
 100001 11  37 343 output.txt
 ```
+## Check to see if a user login is correct in a Bash script
+
+The following script can be used to verify that a username and login is correct.
+It is meant to be a basic scaffold for you to build a fit for purpose fuzzer using cURL and Bash.
+It will check the response length characters to see if it is a valid response.  You will need to adjust the expected character count for your application. 
+```bash
+#!/bin/bash
+result=($(curl --data "email=$2&password=$3" "$1" 2>/dev/null | wc -c))
+echo $result
+if [ "$result" == '0' ]
+then
+        echo 'zero'
+else
+        echo 'NOT zero'
+fi
+```
+Here is the script in action:
+```bash
+$ ./check_user.sh http://10.10.10.10/login.php test@test.com testpassword
+0
+NOT zero
+```
+
