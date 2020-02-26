@@ -48,7 +48,12 @@ $ curl -O http://10.10.10.10/payload.zip
 curl -L http://10.10.10.10/profile.php
 ```
 
-## cURL view verbose debugging information
+## cURL Output Response Headers to STDOUT
+```Bash
+$ curl -i http://10.10.10.10/profile.php
+```
+
+## cURL view verbose debugging information (response headers and other debug details - STD2)
 ```Bash
 $ curl -v http://10.10.10.10/profile.php
 ```
